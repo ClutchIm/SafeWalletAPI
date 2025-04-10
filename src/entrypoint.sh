@@ -8,6 +8,9 @@ echo "PostgreSQL запущен."
 echo "Применяем миграции..."
 python manage.py migrate --noinput
 
+echo "Собираем статические файл..."
+python manage.py collectstatic --noinput
+
 sleep 5
 
 echo "Запускаем сервер..."
