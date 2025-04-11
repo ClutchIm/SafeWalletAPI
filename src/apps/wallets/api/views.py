@@ -17,9 +17,9 @@ class WalletOperationView(APIView):
 
         :param request: incoming request with operation_type and amount in body
         :param uuid: unique identifier of wallet
-        :return:
+        :return: data for wallet or error
         """
-        wallet = get_object_or_404(Wallet.objects.select_for_update(), uuid=uuid)
+        wallet = get_object_or_404(Wallet.objects.select_for_update(), uuid=uuid)  #lock another changes for this object
 
         serializer = WalletOperationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -37,6 +37,15 @@ class WalletOperationView(APIView):
             {"detail": "Operation with wallet successful.", "uuid": wallet.uuid, "balance": wallet.balance},
             status=status.HTTP_200_OK
         )
+
+
+class WalletsBalanceView(APIView):
+    """Get wallet balance by uuid view."""
+    def get(self, request, uuid):
+        wallet = get_object_or_404(Wallet, uuid=uuid)
+
+        serializer = WalletSerializer(wallet)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class WalletsView(APIView):
