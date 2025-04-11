@@ -1,2 +1,5 @@
-from .views import WalletOperationView, WalletsBalanceView, WalletsView
-from .serializers import WalletOperationSerializer
+from .views import (WalletOperationView,
+                    WalletsBalanceView,
+                    WalletsView)
+from .serializers import (WalletOperationSerializer,
+                          WalletSerializer)
